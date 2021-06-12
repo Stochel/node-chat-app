@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                echo 'Testing!"
+                echo 'Testing!'
 		 sh 'npm install'
                 sh 'npm run test'
             }
@@ -15,10 +15,10 @@ pipeline {
     
     post {
         always {
-            echo "Finished!"
+            echo 'Finished!'
         }
         success {
-            echo 'Success!"
+            echo 'Success!'
         }
         failure {
             echo 'Failure!'
