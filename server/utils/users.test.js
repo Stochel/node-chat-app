@@ -65,7 +65,7 @@ describe('Users', () => {
 	it('should return names for Fad Diet', () => {
 		var userList = users.getUserList('Fad Diet');
 
-		expect(userList).toEqual(['Kevin']);
+		expect(userList).toEqual(['test-fail']);
 	});
 
 	it('should add new user', () => {
