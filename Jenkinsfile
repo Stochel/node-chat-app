@@ -9,8 +9,6 @@ pipeline {
                 echo 'Building!'
                 sh 'git pull origin master'
                 sh 'npm install'
-                sh 'build-failtest'
-                
             }
             post {
         	failure {
