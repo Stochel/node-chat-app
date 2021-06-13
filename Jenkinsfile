@@ -9,6 +9,7 @@ pipeline {
                 echo 'Building!'
                 sh 'git pull origin master'
                 sh 'npm install'
+                
             }
             post {
         	failure {
@@ -38,7 +39,7 @@ pipeline {
             }
             post {
         	failure {
-        		echo 'Testing failed!'
+        		echo 'Build failed!'
             		emailext attachLog: true,
                 	body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}",
                 	to: 'stochel.sebastian@gmail.com',
@@ -53,6 +54,34 @@ pipeline {
         	}
     		}
         }
+        
+        
+        
+        
+        stage('Deploy') { 
+            steps {
+                echo 'Deploying!'
+                sh 'docker build -t deployed-app -f Dockerfile_deployer .'
+            }
+            post {
+        	failure {
+        		echo 'Deployment failed!'
+            		emailext attachLog: true,
+                	body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}",
+                	to: 'stochel.sebastian@gmail.com',
+                	subject: "Deployment failed - please check logs"
+        	}
+        	success {
+            		echo 'Deployment finished successfully!'
+            		emailext attachLog: true,
+                	body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}",
+                	to: 'stochel.sebastian@gmail.com',
+                	subject: "Latest deployment finished successfully!"
+        	}
+    		}
+        }
+        
+        
     }
 
     
